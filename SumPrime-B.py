@@ -1,38 +1,35 @@
-from colorama import init, Fore, Style
+def makeSieve():
+    MAX = 10 ** 6 +1
+    isPrime = [True] * MAX
+    isPrime[0] = isPrime[1] = False
+    for i in range(2, MAX):
+        if not isPrime[i]:
+            continue
+        for j in range(i * i, MAX, i):
+            isPrime[j]= False
+    return isPrime
 
-init()
-MAX = 10**6 +1
-isPrime = [True] * MAX
-isPrime[0] = isPrime[1] = False
+isPrime = makeSieve()
 
-for i in range(2, MAX):
-    if not isPrime[i]:
-        continue
-    for j in range(i * 2, MAX, i):
-        isPrime[j] = False
+def sumBiggestPrime(A):
+    bestPrime = -1
+    n = len(A)
 
-entry = input("Enter a series of numbers separated by spaces: ")
-A = list(map(int, entry.split()))
-print("You entered:", A)
-
-bestPrime = -1
-n = len(A)
-print("n =", n)
-for start in range(n):
-    currentSum = 0
-    print(f"Starting new subarray at index {start}")
-    for end in range(start, n):
-        currentSum += A[end]
-        print(f"  Adding A[{end}] = {A[end]}, currentSum now {currentSum}")
-        if isPrime[currentSum]:
-            if currentSum > bestPrime:
-                bestPrime = currentSum
-                print(Fore.GREEN + f"    New best prime found: {bestPrime}" + Style.RESET_ALL)
-            else:
-
-                print(Fore.YELLOW + f"    Current sum {currentSum} is prime but not larger than best prime {bestPrime}." + Style.RESET_ALL)
-        else :
-            print(Fore.RED + f"    Current sum {currentSum} is not prime." + Style.RESET_ALL)
+    nonContiguousSum = 0
+    for start in range(n):
+        currentSum = 0
+        for end in range(start, n):
+            currentSum += A[end]
+            currentNon = A[start] + A[end]
+            if isPrime[currentNon] and currentNon > nonContiguousSum:
+                nonContiguousSum = currentNon
 
 
-print("The largest prime sum of any contiguous subarray is:", bestPrime)
+            if isPrime[currentSum]:
+                if currentSum > bestPrime and currentSum > nonContiguousSum:
+                    bestPrime = currentSum
+                else:
+                    bestPrime = nonContiguousSum
+    return bestPrime
+
+print("The largest prime sum of any contiguous subarray is:", sumBiggestPrime([10, 1, 2, 2, 5, 12, 6]))
