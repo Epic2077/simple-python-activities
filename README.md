@@ -72,6 +72,8 @@ Number: 20, Average: 12.5, Difference: 20.0
 The average is: 20
 ```
 
+**Note**: The function returns the total accumulated absolute difference (20), not the average (12.5).
+
 ---
 
 ### 2. Rabbit.py
@@ -197,9 +199,9 @@ Enter row 4: 0142
 **Expected Output** (simplified Sudoku solution):
 ```
 1234
-3401
-2014
-4142
+3421
+2314
+3142
 ```
 
 **Note**: This uses a simple iterative approach and may not solve all configurations.
